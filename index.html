@@ -44,6 +44,67 @@
   .header-title { font-weight: 600; font-size: 20px; }
   .header-sub { font-size: 13px; color: rgba(255,255,255,0.6); margin-top: 3px; }
 
+  /* ── API Key box ── */
+  .key-box {
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 18px 20px;
+    margin-bottom: 22px;
+  }
+  .key-box-label {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .key-box-note {
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 8px;
+    line-height: 1.5;
+  }
+  .key-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .key-input {
+    flex: 1;
+    padding: 10px 13px;
+    border-radius: 8px;
+    border: 1.5px solid var(--border);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--text);
+    background: var(--bg);
+    outline: none;
+    letter-spacing: 0.04em;
+  }
+  .key-input:focus { border-color: var(--navy); }
+  .key-save-btn {
+    padding: 10px 18px;
+    border-radius: 8px;
+    border: none;
+    background: var(--navy);
+    color: #fff;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .key-save-btn:hover { filter: brightness(1.15); }
+  .key-status {
+    font-size: 13px;
+    margin-top: 8px;
+    min-height: 18px;
+  }
+  .key-status.ok { color: var(--teal); }
+  .key-status.err { color: var(--coral); }
+
   /* ── Unit tabs ── */
   .unit-tabs {
     display: flex;
@@ -175,6 +236,17 @@
     </div>
   </div>
 
+  <!-- API Key -->
+  <div class="key-box">
+    <div class="key-box-label">Your Anthropic API Key</div>
+    <div class="key-row">
+      <input class="key-input" type="password" id="apiKeyInput" placeholder="sk-ant-..." />
+      <button class="key-save-btn" onclick="saveKey()">Save Key</button>
+    </div>
+    <div class="key-status" id="keyStatus"></div>
+    <div class="key-box-note">Your key stays in your browser only — it is never sent anywhere except directly to Anthropic. Get a key at <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a>.</div>
+  </div>
+
   <!-- Step 1: Pick a unit -->
   <p class="section-label">Step 1 — Pick a unit</p>
   <div class="unit-tabs">
@@ -252,7 +324,20 @@ const UNITS = {
   ]
 };
 
-let curUnit = 1, curTopic = null;
+let curUnit = 1, curTopic = null, apiKey = '';
+
+function saveKey() {
+  const val = document.getElementById('apiKeyInput').value.trim();
+  const status = document.getElementById('keyStatus');
+  if (!val.startsWith('sk-ant-')) {
+    status.textContent = '⚠️ That doesn\'t look right — keys start with sk-ant-';
+    status.className = 'key-status err';
+    return;
+  }
+  apiKey = val;
+  status.textContent = '✓ Key saved — you\'re ready to go';
+  status.className = 'key-status ok';
+}
 
 function setUnit(u, btn) {
   document.querySelectorAll('.unit-tab').forEach(t => t.classList.remove('active'));
@@ -295,6 +380,11 @@ function resetResult() {
 
 async function summarize() {
   if (!curTopic) return;
+  if (!apiKey) {
+    document.getElementById('resultBox').textContent = 'Please enter and save your API key at the top first.';
+    document.getElementById('resultBox').classList.add('visible');
+    return;
+  }
   const gb = document.getElementById('goBtn');
   gb.disabled = true;
   resetResult();
@@ -320,7 +410,12 @@ Give 2 short memory tricks. Use everyday examples. Keep each tip to 1 sentence.`
   try {
     const res = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
         max_tokens: 800,
@@ -332,7 +427,7 @@ Give 2 short memory tricks. Use everyday examples. Keep each tip to 1 sentence.`
     document.getElementById('resultBox').textContent = text;
     document.getElementById('resultBox').classList.add('visible');
   } catch(e) {
-    document.getElementById('resultBox').textContent = 'Something went wrong. Please try again.';
+    document.getElementById('resultBox').textContent = 'Something went wrong. Check your API key and try again.';
     document.getElementById('resultBox').classList.add('visible');
   }
 
