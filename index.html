@@ -6,269 +6,66 @@
 <title>AP Precalculus Equation Helper</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap');
-
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
-    --teal:  #0F6E56;
-    --amber: #BA7517;
-    --coral: #993C1D;
-    --navy:  #1B2A4A;
-    --bg:    #F7F6F2;
-    --card:  #FFFFFF;
-    --border:#E2DFD8;
-    --text:  #2A2925;
-    --muted: #7A776E;
+    --teal:  #0F6E56; --amber: #BA7517; --coral: #993C1D;
+    --navy:  #1B2A4A; --bg: #F7F6F2; --card: #FFFFFF;
+    --border:#E2DFD8; --text: #2A2925; --muted: #7A776E;
   }
-
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    font-size: 16px;
-    padding: 20px;
-  }
-
-  /* ── Header ── */
-  .header {
-    background: var(--navy);
-    color: #fff;
-    border-radius: 12px;
-    padding: 18px 22px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-bottom: 20px;
-  }
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); font-size: 16px; padding: 20px; }
+  .header { background: var(--navy); color: #fff; border-radius: 12px; padding: 18px 22px; display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
   .header-icon { font-size: 26px; }
   .header-title { font-weight: 600; font-size: 20px; }
   .header-sub { font-size: 13px; color: rgba(255,255,255,0.6); margin-top: 3px; }
-
-  /* ── API Key box ── */
-  .key-box {
-    background: var(--card);
-    border: 1.5px solid var(--border);
-    border-radius: 12px;
-    padding: 18px 20px;
-    margin-bottom: 22px;
-  }
-  .key-box-label {
-    font-size: 12px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.07em;
-    color: var(--muted);
-    margin-bottom: 8px;
-  }
-  .key-box-note {
-    font-size: 12px;
-    color: var(--muted);
-    margin-top: 8px;
-    line-height: 1.5;
-  }
-  .key-row {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-  }
-  .key-input {
-    flex: 1;
-    padding: 10px 13px;
-    border-radius: 8px;
-    border: 1.5px solid var(--border);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    color: var(--text);
-    background: var(--bg);
-    outline: none;
-    letter-spacing: 0.04em;
-  }
-  .key-input:focus { border-color: var(--navy); }
-  .key-save-btn {
-    padding: 10px 18px;
-    border-radius: 8px;
-    border: none;
-    background: var(--navy);
-    color: #fff;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    white-space: nowrap;
-  }
-  .key-save-btn:hover { filter: brightness(1.15); }
-  .key-status {
-    font-size: 13px;
-    margin-top: 8px;
-    min-height: 18px;
-  }
-  .key-status.ok { color: var(--teal); }
-  .key-status.err { color: var(--coral); }
-
-  /* ── Unit tabs ── */
-  .unit-tabs {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 18px;
-    flex-wrap: wrap;
-  }
-  .unit-tab {
-    flex: 1;
-    min-width: 120px;
-    padding: 12px 10px;
-    border-radius: 10px;
-    border: 2px solid var(--border);
-    background: var(--card);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--muted);
-    cursor: pointer;
-    text-align: center;
-    transition: all 0.15s;
-    line-height: 1.4;
-  }
+  .unit-tabs { display: flex; gap: 10px; margin-bottom: 18px; flex-wrap: wrap; }
+  .unit-tab { flex: 1; min-width: 120px; padding: 12px 10px; border-radius: 10px; border: 2px solid var(--border); background: var(--card); font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; color: var(--muted); cursor: pointer; text-align: center; transition: all 0.15s; line-height: 1.4; }
   .unit-tab:hover { border-color: #bbb; color: var(--text); }
   .unit-tab.u1.active { background: #E1F5EE; border-color: var(--teal); color: var(--teal); }
   .unit-tab.u2.active { background: #FAEEDA; border-color: var(--amber); color: var(--amber); }
   .unit-tab.u3.active { background: #FAECE7; border-color: var(--coral); color: var(--coral); }
-
-  /* ── Topic grid ── */
-  .section-label {
-    font-size: 12px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.07em;
-    color: var(--muted);
-    margin-bottom: 10px;
-  }
-  .topic-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 8px;
-    margin-bottom: 20px;
-  }
-  .topic-btn {
-    padding: 10px 13px;
-    border-radius: 8px;
-    border: 1.5px solid var(--border);
-    background: var(--card);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    color: var(--muted);
-    cursor: pointer;
-    text-align: left;
-    line-height: 1.4;
-    transition: all 0.12s;
-  }
+  .section-label { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--muted); margin-bottom: 10px; }
+  .topic-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px; margin-bottom: 20px; }
+  .topic-btn { padding: 10px 13px; border-radius: 8px; border: 1.5px solid var(--border); background: var(--card); font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--muted); cursor: pointer; text-align: left; line-height: 1.4; transition: all 0.12s; }
   .topic-btn:hover { border-color: #bbb; color: var(--text); }
   .topic-btn.active.u1 { background: #E1F5EE; border-color: var(--teal); color: var(--teal); font-weight: 600; }
   .topic-btn.active.u2 { background: #FAEEDA; border-color: var(--amber); color: var(--amber); font-weight: 600; }
   .topic-btn.active.u3 { background: #FAECE7; border-color: var(--coral); color: var(--coral); font-weight: 600; }
   .topic-num { display: block; font-size: 11px; opacity: 0.7; margin-bottom: 2px; }
-
-  /* ── Go button ── */
-  .go-btn {
-    width: 100%;
-    padding: 14px;
-    border-radius: 10px;
-    border: none;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    color: #fff;
-    background: var(--navy);
-    margin-bottom: 20px;
-    transition: all 0.15s;
-    letter-spacing: 0.01em;
-  }
+  .go-btn { width: 100%; padding: 14px; border-radius: 10px; border: none; font-family: 'DM Sans', sans-serif; font-size: 16px; font-weight: 600; cursor: pointer; color: #fff; background: var(--navy); margin-bottom: 20px; transition: all 0.15s; letter-spacing: 0.01em; }
   .go-btn:disabled { opacity: 0.3; cursor: not-allowed; }
   .go-btn.u1 { background: var(--teal); }
   .go-btn.u2 { background: var(--amber); }
   .go-btn.u3 { background: var(--coral); }
   .go-btn:hover:not(:disabled) { filter: brightness(1.1); }
-
-  /* ── Result ── */
-  .loading-box {
-    display: none;
-    align-items: center;
-    gap: 10px;
-    padding: 20px;
-    color: var(--muted);
-    font-size: 15px;
-  }
-  .loading-box.visible { display: flex; }
-  .dots span {
-    display: inline-block;
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: var(--muted);
-    animation: dot 1s infinite;
-    margin-right: 4px;
-  }
-  .dots span:nth-child(2) { animation-delay: 0.15s; }
-  .dots span:nth-child(3) { animation-delay: 0.3s; }
-  @keyframes dot { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-6px)} }
-
-  .result-box {
-    display: none;
-    background: var(--card);
-    border: 1.5px solid var(--border);
-    border-radius: 12px;
-    padding: 22px;
-    white-space: pre-wrap;
-    font-size: 15px;
-    line-height: 1.85;
-    color: var(--text);
-  }
+  .result-box { display: none; background: var(--card); border: 1.5px solid var(--border); border-radius: 12px; padding: 22px; white-space: pre-wrap; font-size: 15px; line-height: 1.85; color: var(--text); }
   .result-box.visible { display: block; }
 </style>
 </head>
 <body>
 
-  <!-- Header -->
-  <div class="header">
-    <div class="header-icon">📐</div>
-    <div>
-      <div class="header-title">AP Precalculus Equation Helper</div>
-      <div class="header-sub">Simple summaries for every topic — middle school friendly</div>
-    </div>
+<div class="header">
+  <div class="header-icon">📐</div>
+  <div>
+    <div class="header-title">AP Precalculus Equation Helper</div>
+    <div class="header-sub">Simple summaries for every topic — middle school friendly</div>
   </div>
+</div>
 
-  <!-- API Key -->
-  <div class="key-box">
-    <div class="key-box-label">Your Anthropic API Key</div>
-    <div class="key-row">
-      <input class="key-input" type="password" id="apiKeyInput" placeholder="sk-ant-..." />
-      <button class="key-save-btn" onclick="saveKey()">Save Key</button>
-    </div>
-    <div class="key-status" id="keyStatus"></div>
-    <div class="key-box-note">Your key stays in your browser only — it is never sent anywhere except directly to Anthropic. Get a key at <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a>.</div>
-  </div>
+<p class="section-label">Step 1 — Pick a unit</p>
+<div class="unit-tabs">
+  <button class="unit-tab u1 active" onclick="setUnit(1,this)">Unit 1<br>Polynomial &amp; Rational</button>
+  <button class="unit-tab u2"        onclick="setUnit(2,this)">Unit 2<br>Exponential &amp; Log</button>
+  <button class="unit-tab u3"        onclick="setUnit(3,this)">Unit 3<br>Trig &amp; Polar</button>
+</div>
 
-  <!-- Step 1: Pick a unit -->
-  <p class="section-label">Step 1 — Pick a unit</p>
-  <div class="unit-tabs">
-    <button class="unit-tab u1 active" onclick="setUnit(1,this)">Unit 1<br>Polynomial &amp; Rational</button>
-    <button class="unit-tab u2"        onclick="setUnit(2,this)">Unit 2<br>Exponential &amp; Log</button>
-    <button class="unit-tab u3"        onclick="setUnit(3,this)">Unit 3<br>Trig &amp; Polar</button>
-  </div>
+<p class="section-label">Step 2 — Pick a topic</p>
+<div class="topic-grid" id="topicGrid"></div>
 
-  <!-- Step 2: Pick a topic -->
-  <p class="section-label">Step 2 — Pick a topic</p>
-  <div class="topic-grid" id="topicGrid"></div>
+<button class="go-btn" id="goBtn" disabled onclick="showAnswer()">
+  Step 3 — Pick a topic above first
+</button>
 
-  <!-- Step 3: Get summary -->
-  <button class="go-btn" id="goBtn" disabled onclick="summarize()">
-    Step 3 — Pick a topic above first
-  </button>
-
-  <div class="loading-box" id="loadingBox">
-    <div class="dots"><span></span><span></span><span></span></div>
-    Working on it…
-  </div>
-  <div class="result-box" id="resultBox"></div>
+<div class="result-box" id="resultBox"></div>
 
 <script>
 const UNITS = {
@@ -324,20 +121,623 @@ const UNITS = {
   ]
 };
 
-let curUnit = 1, curTopic = null, apiKey = '';
+const ANSWERS = {
+"1.1":`THE EQUATIONS
+y = f(x)  —  This just means y depends on x; when x changes, y changes with it.
 
-function saveKey() {
-  const val = document.getElementById('apiKeyInput').value.trim();
-  const status = document.getElementById('keyStatus');
-  if (!val.startsWith('sk-ant-')) {
-    status.textContent = '⚠️ That doesn\'t look right — keys start with sk-ant-';
-    status.className = 'key-status err';
-    return;
-  }
-  apiKey = val;
-  status.textContent = '✓ Key saved — you\'re ready to go';
-  status.className = 'key-status ok';
-}
+WHAT THE LETTERS MEAN
+x is the input — the value you choose or control, like time or distance.
+y is the output — the result you get after plugging x into the rule.
+f is the name of the rule that connects x to y.
+
+EASY WAYS TO REMEMBER
+Think of a vending machine: x is the button you press, f is the machine's rule, and y is the snack that comes out.
+If two things always move together like a gas pedal and car speed, they change in tandem.`,
+
+"1.2":`THE EQUATIONS
+Average rate of change = (f(b) - f(a)) / (b - a)  —  This tells you how fast the output changes compared to the input.
+
+WHAT THE LETTERS MEAN
+f(b) is the output value at the end point.
+f(a) is the output value at the start point.
+b and a are the two input values you are comparing (b comes after a).
+
+EASY WAYS TO REMEMBER
+Think of a road trip: distance traveled divided by time equals your average speed — that is a rate of change.
+The bigger the result, the steeper the graph looks between those two points.`,
+
+"1.3":`THE EQUATIONS
+Linear: f(x) = mx + b  —  This makes a straight line.
+Quadratic: f(x) = ax^2 + bx + c  —  This makes a U-shaped curve.
+Constant rate of change means linear. Changing rate of change means quadratic.
+
+WHAT THE LETTERS MEAN
+m is the slope — how steep the line is.
+b is where the line crosses the y-axis (the starting value).
+a controls how wide or narrow the U-shape is.
+x^2 means x times itself, which makes the curve bend.
+
+EASY WAYS TO REMEMBER
+Linear is like walking at a steady pace — same change every step.
+Quadratic is like a ball you throw in the air — it speeds up going down and slows going up.`,
+
+"1.4":`THE EQUATIONS
+f(x) = leading term + more terms + constant  —  General form of a polynomial.
+The degree (highest exponent) tells you the most the graph can bend.
+
+WHAT THE LETTERS MEAN
+Degree is the biggest exponent in the equation.
+Leading coefficient is the number in front of the biggest exponent.
+Each term changes the rate of change in a different way.
+
+EASY WAYS TO REMEMBER
+Think of a roller coaster: a higher degree means more hills and dips in the graph.
+The degree tells you the maximum number of direction changes the graph can make.`,
+
+"1.5":`THE EQUATIONS
+(x - r) is a factor when r is a zero.  —  If you plug in r and get 0, then (x - r) divides evenly.
+Complex zeros come in pairs: if a + bi is a zero, so is a - bi.
+
+WHAT THE LETTERS MEAN
+r is a zero (also called a root) — an x value that makes the whole equation equal zero.
+i stands for the imaginary unit, where i squared equals -1.
+a and b are real numbers in a complex number written as a + bi.
+
+EASY WAYS TO REMEMBER
+Zeros are where the graph touches or crosses the x-axis — like where a ball lands on the ground.
+Complex zeros always travel in pairs like twins — you never have just one.`,
+
+"1.6":`THE EQUATIONS
+Positive leading term + even degree: both ends go up.
+Positive leading term + odd degree: left end goes down, right end goes up.
+Flip the directions if the leading coefficient is negative.
+
+WHAT THE LETTERS MEAN
+Leading term is the term with the highest exponent — it controls the far ends of the graph.
+Degree tells you even or odd, which sets the shape of the ends.
+Leading coefficient tells you positive or negative, which flips the direction.
+
+EASY WAYS TO REMEMBER
+Even degree polynomials act like a U or upside-down U — both ends go the same way.
+Odd degree polynomials act like an S — one end goes up, one goes down.`,
+
+"1.7":`THE EQUATIONS
+f(x) = p(x) / q(x)  —  A rational function is one polynomial divided by another.
+End behavior follows the leading terms: divide the leading term of p by the leading term of q.
+
+WHAT THE LETTERS MEAN
+p(x) is the top polynomial (numerator).
+q(x) is the bottom polynomial (denominator).
+The ratio of the leading terms tells you what the graph approaches far out.
+
+EASY WAYS TO REMEMBER
+Think of a fraction like 100 divided by x — as x gets huge, the fraction shrinks toward zero. Same idea here.
+The leading terms win the race as x gets very large.`,
+
+"1.8":`THE EQUATIONS
+Set p(x) = 0 to find zeros.  —  Zeros come from where the numerator equals zero (and denominator does not).
+f(x) = p(x) / q(x) has a zero at x = r if p(r) = 0 and q(r) is not 0.
+
+WHAT THE LETTERS MEAN
+p(x) is the top of the fraction — its zeros become the zeros of the function.
+q(x) is the bottom — if it is also zero at that point, it might be a hole instead.
+r is the x value that makes the top equal zero.
+
+EASY WAYS TO REMEMBER
+Zeros on a rational function only come from the top (numerator) — the bottom causes other problems.
+Think of it like a light switch: zero on top turns the output off.`,
+
+"1.9":`THE EQUATIONS
+Vertical asymptote: set q(x) = 0 where the factor does not cancel.
+Horizontal asymptote — same degree top and bottom: divide leading coefficients.
+Horizontal asymptote — top degree smaller: y = 0.
+Horizontal asymptote — top degree bigger: no horizontal asymptote.
+
+WHAT THE LETTERS MEAN
+Vertical asymptote is a wall the graph never crosses — it shoots up or down near that x value.
+Horizontal asymptote is a ceiling or floor the graph approaches but never quite reaches far out.
+Leading coefficients are the numbers in front of the highest-power terms.
+
+EASY WAYS TO REMEMBER
+Vertical asymptotes are like fences — the graph gets close but cannot cross.
+Horizontal asymptotes are like the horizon — you drive toward it forever but never arrive.`,
+
+"1.10":`THE EQUATIONS
+A hole appears when the same factor cancels from both top and bottom.
+(x - a) / (x - a) simplifies to 1, but the original function is still undefined at x = a.
+
+WHAT THE LETTERS MEAN
+a is the x value where the hole exists — the function is not defined there.
+Canceling means the same expression divides out of both numerator and denominator.
+A hole is a single missing point, not a full line like an asymptote.
+
+EASY WAYS TO REMEMBER
+A hole is like a pothole in a road — mostly smooth, but one spot is missing.
+If a factor cancels completely, you get a hole. If it stays in the denominator, you get an asymptote.`,
+
+"1.11":`THE EQUATIONS
+Standard form: ax^2 + bx + c
+Vertex form: a(x - h)^2 + k
+Factored form: a(x - r)(x - s)
+All three forms describe the exact same parabola.
+
+WHAT THE LETTERS MEAN
+h and k are the coordinates of the vertex (the tip of the parabola).
+r and s are the zeros (where the graph crosses the x-axis).
+a controls width and direction — it is the same a across all three forms.
+
+EASY WAYS TO REMEMBER
+Think of the same person in three different outfits — same person, different look.
+Each form makes one feature easy to read: vertex form shows the tip, factored form shows the zeros.`,
+
+"1.12":`THE EQUATIONS
+g(x) = f(x - h) + k  —  Shifts the graph right h units and up k units.
+g(x) = a times f(x)  —  Stretches or shrinks the graph vertically by factor a.
+g(x) = f(-x)  —  Reflects the graph across the y-axis.
+g(x) = -f(x)  —  Reflects the graph across the x-axis.
+
+WHAT THE LETTERS MEAN
+h is the horizontal shift (right if positive, left if negative — opposite of what you might expect).
+k is the vertical shift (up if positive, down if negative).
+a is the stretch factor (bigger than 1 stretches, between 0 and 1 squishes).
+
+EASY WAYS TO REMEMBER
+Adding outside the function moves the graph up and down. Adding inside moves it left and right.
+Subtracting inside shifts right — think of the graph catching up to where x starts.`,
+
+"1.13":`THE EQUATIONS
+No single equation — this topic is about choosing the right model for data.
+Linear data has a constant rate of change.
+Quadratic data has a rate of change that itself changes at a constant rate.
+Exponential data has a rate of change proportional to the current value.
+
+WHAT THE LETTERS MEAN
+Rate of change tells you how fast something is growing or shrinking.
+Proportional means the growth depends on how big the value already is.
+
+EASY WAYS TO REMEMBER
+Look at the differences: if first differences are constant, it is linear. If second differences are constant, it is quadratic.
+If you keep multiplying by the same number, it is exponential — like doubling every year.`,
+
+"1.14":`THE EQUATIONS
+Find key features from context: start value, rate of change, zeros, maximums.
+Build the equation from those features using the right function family.
+
+WHAT THE LETTERS MEAN
+Start value is where the output begins (usually the y-intercept).
+Rate of change tells you how fast the output grows or shrinks.
+Zeros are where the output hits zero (x-intercepts).
+
+EASY WAYS TO REMEMBER
+Model construction is like writing a recipe from tasting a dish — you reverse-engineer the ingredients.
+Identify the shape first (linear, quadratic, exponential), then fill in the numbers.`,
+
+"2.1":`THE EQUATIONS
+Arithmetic sequence: a_n = a_1 + (n - 1)d  —  Add the same number each time.
+Geometric sequence: a_n = a_1 times r^(n-1)  —  Multiply by the same number each time.
+
+WHAT THE LETTERS MEAN
+a_n is the nth term — the term you are looking for.
+a_1 is the first term — where the sequence starts.
+d is the common difference — the number you add each time in arithmetic sequences.
+r is the common ratio — the number you multiply each time in geometric sequences.
+n is the position number in the sequence.
+
+EASY WAYS TO REMEMBER
+Arithmetic sequences are like climbing stairs — same step size every time.
+Geometric sequences are like a chain reaction — each step multiplies the last one.`,
+
+"2.2":`THE EQUATIONS
+Linear: f(x) = mx + b  —  Add the same amount for every equal step in x.
+Exponential: f(x) = a times b^x  —  Multiply by the same amount for every equal step in x.
+
+WHAT THE LETTERS MEAN
+m is the constant amount added each step in linear growth.
+b (in exponential) is the base — the number you multiply by each step.
+a is the starting value when x equals 0.
+
+EASY WAYS TO REMEMBER
+Linear growth fills a bathtub with a steady drip. Exponential growth doubles the water every minute.
+Equal time steps giving equal additions means linear. Equal multiplications means exponential.`,
+
+"2.3":`THE EQUATIONS
+f(x) = a times b^x  —  This is the basic exponential function.
+b greater than 1 means growth. b between 0 and 1 means decay.
+
+WHAT THE LETTERS MEAN
+a is the initial value (the starting amount when x equals 0).
+b is the base or growth/decay factor.
+x is the exponent — usually represents time.
+
+EASY WAYS TO REMEMBER
+Think of a bank account with interest: a is your starting balance, b is how it multiplies each year.
+Decay is just growth with a base smaller than 1 — like your phone battery draining by half each hour.`,
+
+"2.4":`THE EQUATIONS
+b^x times b^y = b^(x+y)  —  Multiplying same bases means adding exponents.
+b^x divided by b^y = b^(x-y)  —  Dividing same bases means subtracting exponents.
+(b^x)^y = b^(xy)  —  Power to a power means multiplying exponents.
+b^0 = 1  —  Any base to the zero power equals one.
+b^(-x) = 1 / b^x  —  Negative exponent means flip to the denominator.
+
+WHAT THE LETTERS MEAN
+b is the base — the number being raised to a power.
+x and y are the exponents — the powers.
+
+EASY WAYS TO REMEMBER
+Multiplication means add the exponents — think of combining groups.
+A negative exponent just means it belongs on the other side of the fraction bar.`,
+
+"2.5":`THE EQUATIONS
+f(t) = a times b^t  —  Models real situations that grow or decay over time.
+Doubling time: solve b^t = 2 for t.
+Half-life: solve b^t = 0.5 for t.
+
+WHAT THE LETTERS MEAN
+a is the starting amount.
+b is the growth or decay factor per time period.
+t is time.
+Doubling time is how long until the amount doubles.
+Half-life is how long until the amount is cut in half.
+
+EASY WAYS TO REMEMBER
+Bacteria doubling every hour and radioactive material losing half every thousand years are both exponential modeling.
+Identify the starting value and the multiplier per period, and you have your model.`,
+
+"2.6":`THE EQUATIONS
+Residual = actual value - predicted value  —  How far off your model is at each point.
+A good model has residuals that are small and random with no pattern.
+
+WHAT THE LETTERS MEAN
+Actual value is the real data point you measured.
+Predicted value is what your model says it should be.
+Residual is the error — positive means the model underestimated, negative means it overestimated.
+
+EASY WAYS TO REMEMBER
+Think of a weather forecast: the residual is how wrong the prediction was each day.
+If residuals form a pattern, your model is the wrong shape — switch model types.`,
+
+"2.7":`THE EQUATIONS
+(f composed with g)(x) = f(g(x))  —  Plug g(x) into f as the input.
+
+WHAT THE LETTERS MEAN
+g(x) is the inner function — you do this one first.
+f is the outer function — you do this one second, using g(x) as the input.
+The composition symbol means do one function then the other.
+
+EASY WAYS TO REMEMBER
+Think of getting dressed: first put on a shirt (g), then put on a jacket over it (f). Order matters.
+f(g(x)) means g goes inside f — read from the inside out.`,
+
+"2.8":`THE EQUATIONS
+If f(g(x)) = x and g(f(x)) = x, then f and g are inverses of each other.
+To find an inverse: swap x and y, then solve for y.
+f inverse notation means the inverse of f, not 1 divided by f.
+
+WHAT THE LETTERS MEAN
+The inverse function undoes whatever the original function does.
+Swapping x and y reflects the graph across the line y = x.
+
+EASY WAYS TO REMEMBER
+An inverse is like an undo button — if f turns 3 into 7, the inverse turns 7 back into 3.
+Zipping up a jacket and unzipping it are inverses of each other.`,
+
+"2.9":`THE EQUATIONS
+log base b of x = y means b^y = x  —  A log asks: what power do I raise b to in order to get x?
+log(x) means log base 10.
+ln(x) means log base e (natural log).
+
+WHAT THE LETTERS MEAN
+b is the base of the logarithm.
+x is the number you are taking the log of (must be positive).
+y is the exponent — the answer to the log question.
+
+EASY WAYS TO REMEMBER
+Log is just an exponent in disguise — log base 2 of 8 equals 3 because 2 to the third equals 8.
+Think: log asks what power you need. Exponent gives you the result.`,
+
+"2.10":`THE EQUATIONS
+f(x) = b^x and its inverse f(x) = log base b of x undo each other perfectly.
+Their graphs are reflections of each other across the line y = x.
+b raised to log base b of x equals x, and log base b of b^x equals x.
+
+WHAT THE LETTERS MEAN
+b is the base — must be positive and not equal to 1.
+The logarithm undoes the exponential the same way subtraction undoes addition.
+
+EASY WAYS TO REMEMBER
+Exponential and logarithm are a matching pair — like multiplication and division, they undo each other.
+Their graphs are mirror images across the line y = x.`,
+
+"2.11":`THE EQUATIONS
+f(x) = log base b of x  —  The basic log function.
+Domain: x must be greater than 0 (you can only take a log of a positive number).
+Vertical asymptote at x = 0.
+The graph increases slowly — logs grow, but very slowly.
+
+WHAT THE LETTERS MEAN
+b is the base (how fast the log grows).
+x is the input — must always be greater than zero.
+The vertical asymptote means the graph never touches x = 0.
+
+EASY WAYS TO REMEMBER
+Log graphs are the flip of exponential graphs — slow and steady instead of fast and steep.
+You can never take the log of zero or a negative number.`,
+
+"2.12":`THE EQUATIONS
+Product rule: log(xy) = log(x) + log(y)
+Quotient rule: log(x/y) = log(x) - log(y)
+Power rule: log(x^n) = n times log(x)
+Change of base: log base b of x = log(x) / log(b)
+
+WHAT THE LETTERS MEAN
+x and y are the values inside the logarithm.
+n is an exponent that can be pulled out front as a multiplier.
+Change of base lets you use a regular calculator for any base.
+
+EASY WAYS TO REMEMBER
+Logs turn multiplication into addition — that is their superpower.
+The power rule lets you bring exponents down to the front, making equations easier to solve.`,
+
+"2.13":`THE EQUATIONS
+To solve b^x = c: take log of both sides, so x = log(c) / log(b).
+To solve log base b of x = c: rewrite as b^c = x.
+
+WHAT THE LETTERS MEAN
+b is the base of the exponential or logarithm.
+c is the value on the other side of the equation.
+x is what you are solving for.
+
+EASY WAYS TO REMEMBER
+To solve an exponential equation, use a log. To solve a log equation, use an exponential. They unlock each other.
+Like using a key to open a lock — exponentials and logs are each other's keys.`,
+
+"2.14":`THE EQUATIONS
+f(t) = a times b^t  —  Used to model real-world growth or decay.
+Solve for t: t = log(f/a) / log(b)
+
+WHAT THE LETTERS MEAN
+a is the starting value.
+b is the growth or decay factor.
+t is time — often what you are solving for.
+f is the target value you want to reach.
+
+EASY WAYS TO REMEMBER
+Use this when you want to know when something happens — when will the population hit a million, when will the substance be half gone.
+Logs let you solve for the exponent, which is usually time.`,
+
+"2.15":`THE EQUATIONS
+On a semi-log plot, exponential data looks like a straight line.
+The slope of that line equals log(b), where b is the base of the exponential.
+
+WHAT THE LETTERS MEAN
+Semi-log means one axis (usually y) is on a logarithmic scale instead of a regular scale.
+A straight line on a semi-log plot confirms the data is exponential.
+The slope tells you the growth rate.
+
+EASY WAYS TO REMEMBER
+Semi-log plots are a cheat code: curved exponential data becomes a straight line, which is much easier to analyze.
+If the data straightens out on a semi-log plot, your model should be exponential.`,
+
+"3.1":`THE EQUATIONS
+Period = the length of one complete cycle.
+Frequency = 1 / Period  —  How many cycles happen per unit of time.
+
+WHAT THE LETTERS MEAN
+Period is the time it takes for the pattern to repeat — like how long one wave takes to pass.
+Frequency is how often it repeats — more cycles per second means higher frequency.
+
+EASY WAYS TO REMEMBER
+Think of a swing: the time for one complete back-and-forth is the period.
+A faster swing has a shorter period and a higher frequency.`,
+
+"3.2":`THE EQUATIONS
+sin(angle) = opposite / hypotenuse
+cos(angle) = adjacent / hypotenuse
+tan(angle) = opposite / adjacent  (or sine divided by cosine)
+
+WHAT THE LETTERS MEAN
+The angle is the one you are working with inside the triangle.
+Opposite is the side across from the angle.
+Adjacent is the side next to the angle (not the hypotenuse).
+Hypotenuse is always the longest side, across from the right angle.
+
+EASY WAYS TO REMEMBER
+SOH-CAH-TOA: Sine = Opposite over Hypotenuse, Cosine = Adjacent over Hypotenuse, Tangent = Opposite over Adjacent.
+Make up a phrase: Some Old Hippos Can Always Hop To Other Areas.`,
+
+"3.3":`THE EQUATIONS
+Unit circle: x coordinate = cos(angle),  y coordinate = sin(angle)
+sin(0) = 0,  sin(90 degrees) = 1,  sin(180 degrees) = 0,  sin(270 degrees) = -1
+cos(0) = 1,  cos(90 degrees) = 0,  cos(180 degrees) = -1,  cos(270 degrees) = 0
+
+WHAT THE LETTERS MEAN
+The unit circle is a circle with radius 1 centered at the origin.
+The angle is measured from the positive x-axis going counterclockwise.
+x and y coordinates on the circle give you cosine and sine directly.
+
+EASY WAYS TO REMEMBER
+On the unit circle, cosine is the x coordinate and sine is the y coordinate — every time.
+Walk counterclockwise: sine starts at 0, rises to 1, falls back to 0, drops to -1, then returns.`,
+
+"3.4":`THE EQUATIONS
+f(x) = sin(x): starts at 0, goes up to 1, back to 0, down to -1, back to 0.
+f(x) = cos(x): starts at 1, goes down to 0, to -1, back to 0, back to 1.
+Both have period 2 pi (about 6.28) and amplitude 1.
+
+WHAT THE LETTERS MEAN
+Period is the length of one full wave.
+Amplitude is the height of the wave — how far it goes above and below the middle.
+The middle line (midline) is y = 0 for the basic functions.
+
+EASY WAYS TO REMEMBER
+Sine starts sleeping at zero. Cosine starts standing at one.
+Both waves look like smooth hills and valleys repeating forever.`,
+
+"3.5":`THE EQUATIONS
+f(x) = a times sin(bx + c) + d  —  General sinusoidal function.
+Amplitude = absolute value of a
+Period = 2 pi / absolute value of b
+Midline = y = d
+Phase shift = negative c divided by b
+
+WHAT THE LETTERS MEAN
+a controls the height of the wave (amplitude).
+b controls how fast it repeats (frequency).
+c causes the wave to shift left or right (phase shift).
+d moves the whole wave up or down (midline shift).
+
+EASY WAYS TO REMEMBER
+Think of adjusting a music equalizer: a changes volume, b changes speed, d changes the base level.
+The period gets shorter as b gets bigger — faster oscillation.`,
+
+"3.6":`THE EQUATIONS
+Vertical stretch: multiply a by a number greater than 1.
+Vertical shrink: multiply a by a number between 0 and 1.
+Horizontal stretch: decrease b (makes period longer, slower wave).
+Horizontal shrink: increase b (makes period shorter, faster wave).
+
+WHAT THE LETTERS MEAN
+a is the amplitude — changing it stretches or shrinks the wave up and down.
+b is the frequency factor — changing it stretches or shrinks the wave left and right.
+
+EASY WAYS TO REMEMBER
+Doubling a doubles the height of the wave. Doubling b cuts the period in half (twice as fast).
+Changes on the outside (a, d) affect up and down. Changes inside (b, c) affect left and right.`,
+
+"3.7":`THE EQUATIONS
+f(t) = a times sin(2 pi divided by P times t) + d  —  Models real periodic phenomena.
+P is the real-world period (the length of one full cycle in real time).
+a is the amplitude (half the distance between the maximum and minimum values).
+d is the midline (the average of the max and min).
+
+WHAT THE LETTERS MEAN
+t is time in the real situation.
+P is the real-world period — like 24 hours for a daily cycle.
+a is half the total swing of the phenomenon.
+d is the average value — the middle of the up and down.
+
+EASY WAYS TO REMEMBER
+Tides, temperature, heartbeats — anything that repeats can be modeled with a sine function.
+Find the max and min, compute the midline and amplitude, and you have most of the model.`,
+
+"3.8":`THE EQUATIONS
+tan(x) = sin(x) / cos(x)  —  Tangent is sine divided by cosine.
+Period of tan(x) = pi  —  Half the period of sine and cosine.
+Vertical asymptotes where cos(x) = 0 (at 90 degrees, 270 degrees, etc.)
+
+WHAT THE LETTERS MEAN
+tan(x) tells you the slope of the line from the origin to a point on the unit circle.
+Asymptotes happen where cosine is zero — you cannot divide by zero.
+Period pi means the pattern repeats every pi units, not 2 pi.
+
+EASY WAYS TO REMEMBER
+Tangent has no maximum or minimum — it shoots off to infinity at every asymptote.
+Think of it as a slide that goes from bottom-left to top-right, with walls (asymptotes) on each side.`,
+
+"3.9":`THE EQUATIONS
+arcsin(x) gives the angle whose sine is x. Output range: -90 to 90 degrees.
+arccos(x) gives the angle whose cosine is x. Output range: 0 to 180 degrees.
+arctan(x) gives the angle whose tangent is x. Output range: -90 to 90 degrees.
+
+WHAT THE LETTERS MEAN
+arcsin (also written sin^-1) is the inverse of sine — it undoes sine, it is not 1 divided by sine.
+arccos is the inverse of cosine.
+arctan is the inverse of tangent.
+The output range is restricted so each inverse gives exactly one answer.
+
+EASY WAYS TO REMEMBER
+Inverse trig functions answer the question: what angle gives me this ratio?
+If sin(30 degrees) = 0.5, then arcsin(0.5) = 30 degrees. It runs the process backwards.`,
+
+"3.10":`THE EQUATIONS
+To solve sin(x) = k: find the reference angle, then use the unit circle to find all solutions.
+General solution: x = arcsin(k) + 2 pi times n,  or  x = pi - arcsin(k) + 2 pi times n.
+For inequalities: find where the graph is above or below the target value k.
+
+WHAT THE LETTERS MEAN
+k is the target value (the number the trig function equals).
+n represents any integer — it accounts for the infinite repetitions of the wave.
+Reference angle is the acute angle in the first quadrant that matches your ratio.
+
+EASY WAYS TO REMEMBER
+Trig equations have infinitely many solutions because waves repeat forever — always add the period.
+For inequalities, shade the parts of the wave above or below the line y = k.`,
+
+"3.11":`THE EQUATIONS
+sec(x) = 1 / cos(x)  —  Secant is the flip of cosine.
+csc(x) = 1 / sin(x)  —  Cosecant is the flip of sine.
+cot(x) = 1 / tan(x)  —  Cotangent is the flip of tangent.
+
+WHAT THE LETTERS MEAN
+sec stands for secant — undefined where cosine equals zero.
+csc stands for cosecant — undefined where sine equals zero.
+cot stands for cotangent — undefined where tangent equals zero.
+
+EASY WAYS TO REMEMBER
+These are just the reciprocals (flips) of the three main functions.
+Where the original function equals zero, the reciprocal shoots off to infinity (asymptote).`,
+
+"3.12":`THE EQUATIONS
+Pythagorean identity: sin^2(x) + cos^2(x) = 1  —  Always true for any angle.
+From it: 1 + tan^2(x) = sec^2(x)
+From it: 1 + cot^2(x) = csc^2(x)
+Even identity: cos(-x) = cos(x)
+Odd identity: sin(-x) = -sin(x)
+
+WHAT THE LETTERS MEAN
+sin^2(x) means sine squared — sine of x multiplied by itself.
+These identities are equations that are always true, no matter what x is.
+They let you swap one trig expression for another to simplify problems.
+
+EASY WAYS TO REMEMBER
+sin squared plus cos squared equals 1 comes straight from the Pythagorean theorem on the unit circle. It always works.
+Use identities like tools — when you see a complicated trig expression, look for a substitution.`,
+
+"3.13":`THE EQUATIONS
+Polar to rectangular: x = r times cos(angle),  y = r times sin(angle)
+Rectangular to polar: r = square root of (x^2 + y^2),  angle = arctan(y/x)
+A polar point (r, angle) means r units from the origin at that angle.
+
+WHAT THE LETTERS MEAN
+r is the distance from the origin (always positive or zero).
+The angle is measured counterclockwise from the positive x-axis.
+(r, angle) is a polar coordinate pair instead of the usual (x, y).
+
+EASY WAYS TO REMEMBER
+Polar coordinates are like giving directions by saying how far and which direction, instead of using a street address.
+r is the distance, the angle is the compass heading.`,
+
+"3.14":`THE EQUATIONS
+r = f(angle)  —  In polar graphs, the distance from the center depends on the angle.
+r = a makes a circle centered at the origin.
+r = a + b times cos(angle) makes a limaçon shape.
+r = a times cos(n times angle) makes a rose with petals.
+
+WHAT THE LETTERS MEAN
+r is how far the point is from the origin at each angle.
+a and b control the size of the shape.
+n in rose curves controls the number of petals.
+
+EASY WAYS TO REMEMBER
+Polar graphs make beautiful symmetrical shapes — roses, hearts, spirals — that regular graphs cannot easily make.
+Think of the graph as a spinning ruler that changes length as it rotates.`,
+
+"3.15":`THE EQUATIONS
+Average rate of change of r: (r2 - r1) / (angle2 - angle1)
+This tells you how fast the radius is changing as the angle changes.
+
+WHAT THE LETTERS MEAN
+r1 and r2 are the radial distances at two different angles.
+angle1 and angle2 are the two angles being compared.
+The ratio is the average rate of change — same concept as slope, but in polar form.
+
+EASY WAYS TO REMEMBER
+Rate of change in polar is the same idea as slope in rectangular — how much does one quantity change compared to another.
+A positive rate means the curve moves outward as the angle increases; negative means it moves inward.`
+};
+
+let curUnit = 1, curTopic = null;
 
 function setUnit(u, btn) {
   document.querySelectorAll('.unit-tab').forEach(t => t.classList.remove('active'));
@@ -345,7 +745,8 @@ function setUnit(u, btn) {
   curUnit = u;
   curTopic = null;
   renderTopics();
-  resetResult();
+  document.getElementById('resultBox').classList.remove('visible');
+  document.getElementById('resultBox').textContent = '';
   const gb = document.getElementById('goBtn');
   gb.textContent = 'Step 3 — Pick a topic above first';
   gb.disabled = true;
@@ -357,82 +758,27 @@ function renderTopics() {
   grid.innerHTML = '';
   UNITS[curUnit].forEach(t => {
     const b = document.createElement('button');
-    b.className = `topic-btn`;
-    b.innerHTML = `<span class="topic-num">${t.num}</span>${t.name}`;
+    b.className = 'topic-btn';
+    b.innerHTML = '<span class="topic-num">' + t.num + '</span>' + t.name;
     b.onclick = () => {
       document.querySelectorAll('.topic-btn').forEach(x => x.classList.remove('active','u1','u2','u3'));
-      b.classList.add('active', `u${curUnit}`);
+      b.classList.add('active', 'u' + curUnit);
       curTopic = t;
       const gb = document.getElementById('goBtn');
-      gb.textContent = `Get simple summary for ${t.num}: ${t.name}`;
+      gb.textContent = 'Get simple summary for ' + t.num + ': ' + t.name;
       gb.disabled = false;
-      gb.className = `go-btn u${curUnit}`;
+      gb.className = 'go-btn u' + curUnit;
+      document.getElementById('resultBox').classList.remove('visible');
     };
     grid.appendChild(b);
   });
 }
 
-function resetResult() {
-  document.getElementById('loadingBox').classList.remove('visible');
-  document.getElementById('resultBox').classList.remove('visible');
-  document.getElementById('resultBox').textContent = '';
-}
-
-async function summarize() {
+function showAnswer() {
   if (!curTopic) return;
-  if (!apiKey) {
-    document.getElementById('resultBox').textContent = 'Please enter and save your API key at the top first.';
-    document.getElementById('resultBox').classList.add('visible');
-    return;
-  }
-  const gb = document.getElementById('goBtn');
-  gb.disabled = true;
-  resetResult();
-  document.getElementById('loadingBox').classList.add('visible');
-
-  const prompt = `You are explaining AP Precalculus to a middle school student. Use the simplest words possible. Short sentences only. No jargon at all.
-
-Topic: ${curTopic.num} — ${curTopic.name}
-
-Write in plain text only. No markdown. No asterisks. No bullet symbols. No hashtags.
-
-Use these three sections with these exact labels:
-
-THE EQUATIONS
-List each key equation on its own line. After each equation, write one very short plain-English sentence saying what it does in everyday words.
-
-WHAT THE LETTERS MEAN
-For each letter or symbol in the equations, write one sentence in simple everyday words. Write like you are talking to a 12-year-old.
-
-EASY WAYS TO REMEMBER
-Give 2 short memory tricks. Use everyday examples. Keep each tip to 1 sentence.`;
-
-  try {
-    const res = await fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true'
-      },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 800,
-        messages: [{ role: 'user', content: prompt }]
-      })
-    });
-    const data = await res.json();
-    const text = data.content?.find(b => b.type === 'text')?.text || 'No response. Please try again.';
-    document.getElementById('resultBox').textContent = text;
-    document.getElementById('resultBox').classList.add('visible');
-  } catch(e) {
-    document.getElementById('resultBox').textContent = 'Something went wrong. Check your API key and try again.';
-    document.getElementById('resultBox').classList.add('visible');
-  }
-
-  document.getElementById('loadingBox').classList.remove('visible');
-  gb.disabled = false;
+  const box = document.getElementById('resultBox');
+  box.textContent = ANSWERS[curTopic.num] || 'Summary coming soon.';
+  box.classList.add('visible');
 }
 
 renderTopics();
