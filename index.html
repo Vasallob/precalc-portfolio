@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AP Precalculus Equation Helper</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --teal:  #0F6E56;
+    --amber: #BA7517;
+    --coral: #993C1D;
+    --navy:  #1B2A4A;
+    --bg:    #F7F6F2;
+    --card:  #FFFFFF;
+    --border:#E2DFD8;
+    --text:  #2A2925;
+    --muted: #7A776E;
+  }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 16px;
+    padding: 20px;
+  }
+
+  /* ── Header ── */
+  .header {
+    background: var(--navy);
+    color: #fff;
+    border-radius: 12px;
+    padding: 18px 22px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+  .header-icon { font-size: 26px; }
+  .header-title { font-weight: 600; font-size: 20px; }
+  .header-sub { font-size: 13px; color: rgba(255,255,255,0.6); margin-top: 3px; }
+
+  /* ── Unit tabs ── */
+  .unit-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+  }
+  .unit-tab {
+    flex: 1;
+    min-width: 120px;
+    padding: 12px 10px;
+    border-radius: 10px;
+    border: 2px solid var(--border);
+    background: var(--card);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--muted);
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.15s;
+    line-height: 1.4;
+  }
+  .unit-tab:hover { border-color: #bbb; color: var(--text); }
+  .unit-tab.u1.active { background: #E1F5EE; border-color: var(--teal); color: var(--teal); }
+  .unit-tab.u2.active { background: #FAEEDA; border-color: var(--amber); color: var(--amber); }
+  .unit-tab.u3.active { background: #FAECE7; border-color: var(--coral); color: var(--coral); }
+
+  /* ── Topic grid ── */
+  .section-label {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .topic-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+  .topic-btn {
+    padding: 10px 13px;
+    border-radius: 8px;
+    border: 1.5px solid var(--border);
+    background: var(--card);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: var(--muted);
+    cursor: pointer;
+    text-align: left;
+    line-height: 1.4;
+    transition: all 0.12s;
+  }
+  .topic-btn:hover { border-color: #bbb; color: var(--text); }
+  .topic-btn.active.u1 { background: #E1F5EE; border-color: var(--teal); color: var(--teal); font-weight: 600; }
+  .topic-btn.active.u2 { background: #FAEEDA; border-color: var(--amber); color: var(--amber); font-weight: 600; }
+  .topic-btn.active.u3 { background: #FAECE7; border-color: var(--coral); color: var(--coral); font-weight: 600; }
+  .topic-num { display: block; font-size: 11px; opacity: 0.7; margin-bottom: 2px; }
+
+  /* ── Go button ── */
+  .go-btn {
+    width: 100%;
+    padding: 14px;
+    border-radius: 10px;
+    border: none;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    color: #fff;
+    background: var(--navy);
+    margin-bottom: 20px;
+    transition: all 0.15s;
+    letter-spacing: 0.01em;
+  }
+  .go-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+  .go-btn.u1 { background: var(--teal); }
+  .go-btn.u2 { background: var(--amber); }
+  .go-btn.u3 { background: var(--coral); }
+  .go-btn:hover:not(:disabled) { filter: brightness(1.1); }
+
+  /* ── Result ── */
+  .loading-box {
+    display: none;
+    align-items: center;
+    gap: 10px;
+    padding: 20px;
+    color: var(--muted);
+    font-size: 15px;
+  }
+  .loading-box.visible { display: flex; }
+  .dots span {
+    display: inline-block;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--muted);
+    animation: dot 1s infinite;
+    margin-right: 4px;
+  }
+  .dots span:nth-child(2) { animation-delay: 0.15s; }
+  .dots span:nth-child(3) { animation-delay: 0.3s; }
+  @keyframes dot { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-6px)} }
+
+  .result-box {
+    display: none;
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 22px;
+    white-space: pre-wrap;
+    font-size: 15px;
+    line-height: 1.85;
+    color: var(--text);
+  }
+  .result-box.visible { display: block; }
+</style>
+</head>
+<body>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-icon">📐</div>
+    <div>
+      <div class="header-title">AP Precalculus Equation Helper</div>
+      <div class="header-sub">Simple summaries for every topic — middle school friendly</div>
+    </div>
+  </div>
+
+  <!-- Step 1: Pick a unit -->
+  <p class="section-label">Step 1 — Pick a unit</p>
+  <div class="unit-tabs">
+    <button class="unit-tab u1 active" onclick="setUnit(1,this)">Unit 1<br>Polynomial &amp; Rational</button>
+    <button class="unit-tab u2"        onclick="setUnit(2,this)">Unit 2<br>Exponential &amp; Log</button>
+    <button class="unit-tab u3"        onclick="setUnit(3,this)">Unit 3<br>Trig &amp; Polar</button>
+  </div>
+
+  <!-- Step 2: Pick a topic -->
+  <p class="section-label">Step 2 — Pick a topic</p>
+  <div class="topic-grid" id="topicGrid"></div>
+
+  <!-- Step 3: Get summary -->
+  <button class="go-btn" id="goBtn" disabled onclick="summarize()">
+    Step 3 — Pick a topic above first
+  </button>
+
+  <div class="loading-box" id="loadingBox">
+    <div class="dots"><span></span><span></span><span></span></div>
+    Working on it…
+  </div>
+  <div class="result-box" id="resultBox"></div>
+
+<script>
+const UNITS = {
+  1: [
+    {num:"1.1", name:"Change in Tandem"},
+    {num:"1.2", name:"Rates of Change"},
+    {num:"1.3", name:"Linear & Quadratic Rates"},
+    {num:"1.4", name:"Polynomial & Rates of Change"},
+    {num:"1.5", name:"Polynomial & Complex Zeros"},
+    {num:"1.6", name:"Polynomial & End Behavior"},
+    {num:"1.7", name:"Rational & End Behavior"},
+    {num:"1.8", name:"Rational & Zeros"},
+    {num:"1.9", name:"Rational & Asymptotes"},
+    {num:"1.10",name:"Rational & Holes"},
+    {num:"1.11",name:"Equivalent Representations"},
+    {num:"1.12",name:"Transformations"},
+    {num:"1.13",name:"Model Selection"},
+    {num:"1.14",name:"Model Construction"},
+  ],
+  2: [
+    {num:"2.1", name:"Arithmetic & Geometric Sequences"},
+    {num:"2.2", name:"Linear & Exponential Change"},
+    {num:"2.3", name:"Exponential Functions"},
+    {num:"2.4", name:"Exponential Manipulation"},
+    {num:"2.5", name:"Exponential Modeling"},
+    {num:"2.6", name:"Model Validation"},
+    {num:"2.7", name:"Composition of Functions"},
+    {num:"2.8", name:"Inverse Functions"},
+    {num:"2.9", name:"Logarithmic Expressions"},
+    {num:"2.10",name:"Inverses of Exponential Functions"},
+    {num:"2.11",name:"Logarithmic Functions"},
+    {num:"2.12",name:"Logarithm Manipulation"},
+    {num:"2.13",name:"Exp & Log Equations"},
+    {num:"2.14",name:"Log Modeling"},
+    {num:"2.15",name:"Semi-log Plots"},
+  ],
+  3: [
+    {num:"3.1", name:"Periodic Phenomena"},
+    {num:"3.2", name:"Sine, Cosine & Tangent"},
+    {num:"3.3", name:"Sine & Cosine Values"},
+    {num:"3.4", name:"Sine & Cosine Graphs"},
+    {num:"3.5", name:"Sinusoidal Functions"},
+    {num:"3.6", name:"Sinusoidal Transformations"},
+    {num:"3.7", name:"Sinusoidal Modeling"},
+    {num:"3.8", name:"The Tangent Function"},
+    {num:"3.9", name:"Inverse Trig Functions"},
+    {num:"3.10",name:"Trig Equations & Inequalities"},
+    {num:"3.11",name:"Sec, Csc & Cot"},
+    {num:"3.12",name:"Trig Identities"},
+    {num:"3.13",name:"Trig & Polar Coordinates"},
+    {num:"3.14",name:"Polar Function Graphs"},
+    {num:"3.15",name:"Rates of Change in Polar"},
+  ]
+};
+
+let curUnit = 1, curTopic = null;
+
+function setUnit(u, btn) {
+  document.querySelectorAll('.unit-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  curUnit = u;
+  curTopic = null;
+  renderTopics();
+  resetResult();
+  const gb = document.getElementById('goBtn');
+  gb.textContent = 'Step 3 — Pick a topic above first';
+  gb.disabled = true;
+  gb.className = 'go-btn';
+}
+
+function renderTopics() {
+  const grid = document.getElementById('topicGrid');
+  grid.innerHTML = '';
+  UNITS[curUnit].forEach(t => {
+    const b = document.createElement('button');
+    b.className = `topic-btn`;
+    b.innerHTML = `<span class="topic-num">${t.num}</span>${t.name}`;
+    b.onclick = () => {
+      document.querySelectorAll('.topic-btn').forEach(x => x.classList.remove('active','u1','u2','u3'));
+      b.classList.add('active', `u${curUnit}`);
+      curTopic = t;
+      const gb = document.getElementById('goBtn');
+      gb.textContent = `Get simple summary for ${t.num}: ${t.name}`;
+      gb.disabled = false;
+      gb.className = `go-btn u${curUnit}`;
+    };
+    grid.appendChild(b);
+  });
+}
+
+function resetResult() {
+  document.getElementById('loadingBox').classList.remove('visible');
+  document.getElementById('resultBox').classList.remove('visible');
+  document.getElementById('resultBox').textContent = '';
+}
+
+async function summarize() {
+  if (!curTopic) return;
+  const gb = document.getElementById('goBtn');
+  gb.disabled = true;
+  resetResult();
+  document.getElementById('loadingBox').classList.add('visible');
+
+  const prompt = `You are explaining AP Precalculus to a middle school student. Use the simplest words possible. Short sentences only. No jargon at all.
+
+Topic: ${curTopic.num} — ${curTopic.name}
+
+Write in plain text only. No markdown. No asterisks. No bullet symbols. No hashtags.
+
+Use these three sections with these exact labels:
+
+THE EQUATIONS
+List each key equation on its own line. After each equation, write one very short plain-English sentence saying what it does in everyday words.
+
+WHAT THE LETTERS MEAN
+For each letter or symbol in the equations, write one sentence in simple everyday words. Write like you are talking to a 12-year-old.
+
+EASY WAYS TO REMEMBER
+Give 2 short memory tricks. Use everyday examples. Keep each tip to 1 sentence.`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 800,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    const data = await res.json();
+    const text = data.content?.find(b => b.type === 'text')?.text || 'No response. Please try again.';
+    document.getElementById('resultBox').textContent = text;
+    document.getElementById('resultBox').classList.add('visible');
+  } catch(e) {
+    document.getElementById('resultBox').textContent = 'Something went wrong. Please try again.';
+    document.getElementById('resultBox').classList.add('visible');
+  }
+
+  document.getElementById('loadingBox').classList.remove('visible');
+  gb.disabled = false;
+}
+
+renderTopics();
+</script>
+</body>
+</html>
